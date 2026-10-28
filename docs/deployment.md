@@ -2,12 +2,12 @@
 
 ## Current setup
 
-The local codebase includes a GitHub Pages workflow. The intended repository is `Manikumar09/zonesync`. Repository creation, pushing, and live deployment must be verified on GitHub; having the workflow file locally does not make the site live.
+The local codebase includes a GitHub Pages workflow. The existing public repository is [Manikumar09/ZoneSync](https://github.com/Manikumar09/ZoneSync). Pushing and live deployment must still be verified on GitHub; having the workflow file locally does not make the site live.
 
 The planned site address is:
 
 ```text
-https://manikumar09.github.io/zonesync/
+https://manikumar09.github.io/ZoneSync/
 ```
 
 GitHub Pages serves the built website. GitHub Actions checks and publishes updates. The app does not need an Actions job running all day or your computer staying on. Access still depends on GitHub Pages, the visitor's internet connection, and the external map and search providers. No service guarantees uninterrupted access.
@@ -17,8 +17,8 @@ GitHub Pages serves the built website. GitHub Actions checks and publishes updat
 - Git, Node.js 22 or newer, npm, and Python 3.
 - GitHub CLI (`gh`) signed in to `Manikumar09`.
 - Internet access from the terminal.
-- Permission to create repositories, push source, write Actions workflows, and configure Pages.
-- A public repository for GitHub Pages on GitHub Free. The publishing script creates a public source repository and a public website.
+- Permission to push source, write Actions workflows, and configure Pages in the existing repository.
+- The existing public repository `Manikumar09/ZoneSync`. The script keeps its current visibility and enables a public Pages website.
 
 No application API keys or repository secrets are required. The workflow uses GitHub's automatic token and a short-lived identity token for Pages.
 
@@ -42,23 +42,20 @@ Ensure your changes are committed on `main`. Configure your own Git commit name 
 python3 scripts/publish_github.py
 ```
 
-The script checks the account, branch, clean working tree, and source checks. It creates `Manikumar09/zonesync`, adds `origin`, pushes `main`, enables Pages with GitHub Actions as its source, sets the homepage, and starts the workflow. It refuses an unrelated origin and never force-pushes.
+The script verifies the signed-in account, existing repository access, branch, clean working tree, and source checks. It adds `origin` if missing, pushes `main`, enables Pages with GitHub Actions as its source, sets the homepage, and starts the workflow. It never creates a repository, changes repository visibility, replaces an unrelated origin, or force-pushes.
 
-If a repository with that name already exists and no local origin has been set, the script stops so it cannot publish over an unrelated project. Inspect the existing repository before manually attaching its URL. If a prior attempt created the correct empty repository but stopped, add it as origin and run the script again:
+If `origin` already points to this repository, it is reused. GitHub repository names are matched without regard to capitalization; the documented Pages URL uses the repository's exact `ZoneSync` spelling. Editor swap files are ignored and do not need to be committed.
 
-```sh
-git remote add origin https://github.com/Manikumar09/zonesync.git
-python3 scripts/publish_github.py
-```
+If the remote contains commits absent locally, Git rejects the push. Inspect and reconcile that history before trying again. Do not force-push over it. If the remote was initialized separately with a README, the histories may be unrelated and need a deliberate merge.
 
 Open the repository's Actions tab. Wait for **Check and deploy ZoneSync** to finish successfully, then follow the deployment URL. The planned address is not proof of successful publication.
 
 ## Manual alternative
 
-Create a new public repository named `zonesync` under `Manikumar09`, without an initial README, license, or gitignore. From this folder run:
+Use the existing `Manikumar09/ZoneSync` repository. If `origin` is not configured, run:
 
 ```sh
-git remote add origin https://github.com/Manikumar09/zonesync.git
+git remote add origin https://github.com/Manikumar09/ZoneSync.git
 git push -u origin main
 ```
 
@@ -84,9 +81,9 @@ The workflow grants source read access to the check job. Only the deployment job
 ## Verify a deployment
 
 ```sh
-gh run list --repo Manikumar09/zonesync --workflow pages.yml
-gh run view RUN_ID --repo Manikumar09/zonesync
-gh api repos/Manikumar09/zonesync/pages --jq .html_url
+gh run list --repo Manikumar09/ZoneSync --workflow pages.yml
+gh run view RUN_ID --repo Manikumar09/ZoneSync
+gh api repos/Manikumar09/ZoneSync/pages --jq .html_url
 ```
 
 Replace `RUN_ID` with an actual run ID from the list. Open the returned site URL and check city search, map selection, saved clocks, calculator output, timeline controls, and themes. A passed source check does not verify external map availability.

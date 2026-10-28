@@ -6,13 +6,13 @@ The app runs in your browser. No account, backend server, database, or API key i
 
 ## Hosting status
 
-The code includes a GitHub Actions workflow for GitHub Pages. The intended repository is `Manikumar09/zonesync`, and the planned website address is:
+The code includes a GitHub Actions workflow for GitHub Pages. The existing repository is [Manikumar09/ZoneSync](https://github.com/Manikumar09/ZoneSync), and the website address after a successful deployment is:
 
 ```text
-https://manikumar09.github.io/zonesync/
+https://manikumar09.github.io/ZoneSync/
 ```
 
-This address becomes available after the repository is created, Pages is enabled, and deployment succeeds. It is not a confirmed live deployment. See the [deployment guide](docs/deployment.md) for the publishing steps.
+This address becomes available after the code is pushed, Pages is enabled, and deployment succeeds. It is not a confirmed live deployment. See the [deployment guide](docs/deployment.md) for the publishing steps.
 
 ## Features
 
@@ -109,14 +109,14 @@ The source is formatted for reading, with feature files and comments for non-obv
 
 ## Publish to GitHub
 
-The publishing script creates a public repository under `Manikumar09`, pushes the code, enables Pages, and starts the workflow. Use a terminal with internet access:
+The publishing script connects this folder to your existing public repository, `Manikumar09/ZoneSync`, pushes the committed code, enables Pages, and starts the workflow. It does not create a repository. Use a terminal with internet access:
 
 ```sh
 gh auth login --hostname github.com
 python3 scripts/publish_github.py
 ```
 
-Commit any local changes before publishing. The script checks the signed-in account and refuses an unrelated remote. It never force-pushes. If an earlier attempt already created the repository, follow the recovery steps in the [deployment guide](docs/deployment.md).
+Commit any local changes before publishing. The script checks the signed-in account and refuses an unrelated remote. It never force-pushes. If the remote has commits that are not present locally, a normal push stops without overwriting them. See the [deployment guide](docs/deployment.md) for details.
 
 After setup, each push to `main` runs the checks and publishes the built app. Pull requests only check and build. GitHub Pages hosts the website while your computer is off. GitHub Actions performs deployments; it is not an always-running application server. Check the Actions result before treating the planned address as live.
 
