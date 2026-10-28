@@ -153,6 +153,6 @@ No custom domain is configured. Use the Pages address after deployment succeeds.
 
 ## Support and licensing
 
-After the repository is created, report bugs through its Issues tab with the browser version and steps to reproduce the problem. Official support contact details have not been provided.
+Report bugs through the repository's Issues tab with the browser version and steps to reproduce the problem. Official support contact details have not been provided.
 
-No license has been selected for the application code. Public source visibility does not grant an open-source license. External libraries and data retain their own licenses and attribution requirements.
+The repository includes the [MIT License](LICENSE) selected when it was created on GitHub. External libraries and data retain their own licenses and attribution requirements.
