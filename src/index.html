@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>MunuteAtlas — Find your place in time</title>
+    <meta name="description" content="Explore timezones on an interactive world map. Select any location, see its local time, and compare saved places.">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/appearance.css">
+    <script src="scripts/appearance.js" defer>
+    </script>
+    <script src="scripts/theme-init.js">
+    </script>
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        <span class="logo">◎</span>munuteatlas<span style="color:#65967b">.</span>
+      </div>
+      <div class="header-actions">
+        <div class="header-note">
+          <span class="live-dot">
+          </span>A little closer, across time.</div>
+        <div class="theme-menu-wrap">
+          <button id="theme-menu-button" class="theme-menu-button" aria-expanded="false" aria-controls="theme-menu" aria-label="Change application theme">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+            <span>Theme</span>
+          </button>
+          <div id="theme-menu" class="theme-menu" hidden>
+            <span class="theme-menu-title">APPEARANCE</span>
+            <button type="button" data-theme-choice="mono" aria-pressed="false">
+              <span class="theme-swatch mono-swatch">
+              </span>Black &amp; White<span class="theme-check" aria-hidden="true">✓</span>
+            </button>
+            <button type="button" data-theme-choice="bright" aria-pressed="false">
+              <span class="theme-swatch bright-swatch">
+              </span>Bright<span class="theme-check" aria-hidden="true">✓</span>
+            </button>
+            <button type="button" data-theme-choice="midnight" aria-pressed="true">
+              <span class="theme-swatch midnight-swatch">
+              </span>Midnight<span class="theme-check" aria-hidden="true">✓</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="intro">
+        <div>
+          <div class="eyebrow">THE WORLD, IN YOUR TIME</div>
+          <h1>Find your place in time.</h1>
+          <p>Pick a point on the map. Discover the time there.</p>
+        </div>
+        <div class="seg" aria-label="Time format">
+          <button id="h12" class="active">12-hour</button>
+          <button id="h24">24-hour</button>
+        </div>
+      </div>
+      <div class="workspace">
+        <div>
+          <div class="map-wrap">
+            <div id="map" aria-label="Interactive timezone map">
+            </div>
+            <div class="search-box">
+              <div class="search-line">
+                <span>⌕</span>
+                <input id="search" aria-label="Search for a city or location" placeholder="Search for a city or location…" autocomplete="off">
+              </div>
+              <div class="results" id="results">
+              </div>
+            </div>
+            <div class="map-caption">⊙ &nbsp; Click anywhere to explore its timezone</div>
+            <button class="locate" title="Use my location" aria-label="Use my location">⌖</button>
+          </div>
+          <div class="hint">Drag to explore · Use + / − to zoom · Select a place to see its local time</div>
+        </div>
+        <aside class="info" aria-live="polite">
+          <div class="selected-label">Selected area <span class="badge">● LIVE</span>
+          </div>
+          <h2 id="place">London</h2>
+          <div class="clock" id="clock">
+          </div>
+          <div class="date" id="date">
+          </div>
+          <div class="details">
+            <div class="row">
+              <span>Timezone</span>
+              <strong id="tz">
+              </strong>
+            </div>
+            <div class="row">
+              <span>GMT offset</span>
+              <strong id="offset">
+              </strong>
+            </div>
+          </div>
+          <button class="save" id="save">＋ &nbsp; Save location</button>
+        </aside>
+      </div>
+      <div class="lower-tabs" role="tablist" aria-label="Time tools">
+        <button id="world-tab" role="tab" aria-selected="true" aria-controls="world-panel">World clock</button>
+        <button id="calculator-tab" role="tab" aria-selected="false" aria-controls="calculator-panel" tabindex="-1">Timezone calculator ↗</button>
+        <button id="list-tab" role="tab" aria-selected="false" aria-controls="list-panel" tabindex="-1">Time zone list</button>
+      </div>
+      <section id="world-panel" role="tabpanel" aria-labelledby="world-tab">
+        <div class="section-head">
+          <h3>Your world clock <span id="count" style="margin-left:8px">
+            </span>
+          </h3>
+          <span>A few places. One shared moment.</span>
+        </div>
+        <div class="cards" id="cards">
+        </div>
+      </section>
+      <section id="calculator-panel" class="calculator" role="tabpanel" aria-labelledby="calculator-tab" hidden>
+        <div class="eyebrow">ONE MOMENT. ANY TIMEZONE.</div>
+        <h3>Make time work for you.</h3>
+        <p>Choose a date and time, then see it across the world.</p>
+        <div class="conversion-workspace">
+          <div class="conversion-card source-card">
+            <div class="conversion-card-heading">
+              <div>
+                <h4>Select timezone</h4>
+              </div>
+              <span class="offset-pill" id="source-offset">GMT</span>
+            </div>
+            <label class="field-label" for="from-zone">From timezone</label>
+            <div class="source-zone-controls">
+              <select id="from-zone">
+              </select>
+              <button id="calendar-toggle" class="calendar-toggle" aria-label="Choose source date and time" aria-expanded="false" aria-controls="source-datetime-picker" title="Choose date and time">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+                  <rect x="3" y="5" width="18" height="16" rx="3"/>
+                  <path d="M7 3v4M17 3v4M3 11h18M7 15h3M14 15h3"/>
+                </svg>
+              </button>
+            </div>
+            <div id="source-datetime-picker" class="source-date-time" hidden>
+              <label class="field-label" for="convert-date">Date<input type="date" id="convert-date" required>
+              </label>
+              <label class="field-label" for="convert-time">Time<input type="time" id="convert-time" step="60" required>
+              </label>
+            </div>
+            <p id="source-datetime-summary" class="source-datetime-summary">
+            </p>
+            <button id="use-selected" class="secondary">⌖ Select from Map</button>
+          </div>
+          <div class="conversion-bridge">
+            <span class="bridge-line">
+            </span>
+            <button id="swap-zones" class="swap" aria-label="Swap source and destination timezones" title="Swap timezones">⇄</button>
+            <span class="bridge-line">
+            </span>
+          </div>
+          <div class="conversion-card destination-card">
+            <div class="conversion-card-heading">
+              <div>
+                <h4 id="destination-zone-heading">Destination timezone</h4>
+              </div>
+              <span class="offset-pill" id="destination-offset">GMT</span>
+            </div>
+            <label class="field-label" for="to-zone">Destination timezone</label>
+            <select id="to-zone">
+            </select>
+            <div class="destination-preview">
+              <div class="destination-time" id="destination-time">—</div>
+              <div class="destination-date" id="destination-date">Choose a source date and time</div>
+              <span class="day-shift" id="day-shift">Same day</span>
+            </div>
+          </div>
+        </div>
+        <div class="conversion-actions">
+          <p>✦ Conversion follows daylight saving rules for your chosen date.</p>
+          <button id="convert-button" class="primary">Convert time ↗</button>
+        </div>
+        <div id="conversion-result" class="conversion-result" role="status" aria-live="polite">Choose your timezones to get started.</div>
+      </section>
+      <section id="list-panel" class="calculator compare-panel" role="tabpanel" aria-labelledby="list-tab" hidden>
+        <div class="eyebrow">A SHARED MOMENT, SIDE BY SIDE</div>
+        <h3>Your time, across the world.</h3>
+        <p>Choose a base area on the map, then add 1–5 different timezones to compare.</p>
+        <div class="compare-setup">
+          <div class="compare-base">
+            <span class="field-label">Base timezone · selected on map</span>
+            <strong id="compare-base-zone">
+            </strong>
+            <button id="compare-map" class="secondary">⌖ Select from Map</button>
+          </div>
+          <div class="compare-picker">
+            <label class="field-label" for="compare-zone-picker">Which timezones would you like to compare?</label>
+            <div class="compare-picker-controls">
+              <select id="compare-zone-picker" aria-describedby="compare-selection-status">
+              </select>
+              <button id="add-compare-zone" class="primary">＋ Add</button>
+            </div>
+            <div id="compare-selection-status" role="status" class="selection-status">Select at least 1 timezone (maximum 5).</div>
+            <div id="compare-chips" class="compare-chips">
+            </div>
+          </div>
+        </div>
+        <div id="compare-empty" class="compare-empty">◎<p>Add at least one timezone to reveal your time scales.</p>
+        </div>
+        <div id="compare-simulation" hidden>
+          <div class="simulation-controls">
+            <label class="field-label">Date in base timezone<input type="date" id="compare-date" required>
+            </label>
+            <button id="compare-now" class="secondary">Today</button>
+          </div>
+          <p id="compare-error" role="status" class="compare-error">
+          </p>
+          <p id="compare-moment" class="comparison-current-time" role="status">
+          </p>
+          <p id="timeline-help" class="hint">Click a position or drag the mint pointer to select a time. On mobile, drag the pointer or tap a time; swipe the scale to view all 24 hours. Mint = 08:00–18:00; blue = other hours.</p>
+          <div class="scales-scroll" tabindex="0" role="region" aria-label="Timezone comparison scales; scroll horizontally on smaller screens">
+            <div id="compare-scales">
+            </div>
+          </div>
+          <p class="hint">Dates, GMT offsets, and daylight saving changes follow each timezone’s rules. Daytime shading is a planning guide.</p>
+        </div>
+      </section>
+      <section class="app-information" aria-label="Application information">
+        <div class="app-info-top">
+          <div>
+            <div class="brand">
+              <span class="logo">◎</span>munuteatlas.</div>
+            <p>Find a timezone. Share a moment.<br>A map-based timezone explorer and planning tool.</p>
+          </div>
+          <div>
+            <h4>About MunuteAtlas</h4>
+            <p>Explore local times, convert dates, and compare up to five timezones against your map selection. No account required.</p>
+          </div>
+          <div>
+            <h4>Contact &amp; support</h4>
+            <p id="contact-details">Official contact details have not been provided.</p>
+            <a href="#app-help">Help &amp; frequently asked questions ↗</a>
+          </div>
+        </div>
+        <div class="dst-note">
+          <span class="eyebrow">EASTERN TIME · EDT / EST</span>
+          <h4>One region, two seasonal offsets.</h4>
+          <div class="dst-cards">
+            <div>
+              <strong>EDT · GMT−04:00</strong>
+              <p>In U.S. Eastern locations observing daylight saving time, EDT begins March 8, 2026 at 2:00 a.m. EST (clocks jump to 3:00 a.m. EDT), and ends November 1, 2026 at 2:00 a.m. EDT.</p>
+            </div>
+            <div>
+              <strong>EST · GMT−05:00</strong>
+              <p>EST resumes November 1, 2026 when 2:00 a.m. EDT becomes 1:00 a.m. EST. It continues until March 14, 2027 at 2:00 a.m. EST. In early 2026, EST lasts until March 8.</p>
+            </div>
+          </div>
+          <p>Under current U.S. rules, daylight saving starts on the second Sunday of March and ends on the first Sunday of November. Some regions do not observe these changes. Choose an IANA zone such as America/New_York to apply the correct rules for a date. <a href="https://www.nist.gov/pml/time-and-frequency-division/popular-links/daylight-saving-time-dst" target="_blank" rel="noopener">Source: NIST daylight saving rules ↗</a>
+          </p>
+        </div>
+        <div id="app-help" class="help-grid">
+          <details>
+            <summary>How do I compare timezones?</summary>
+            <p>Open Time zone list, select a base on the map, and add one to five unique timezones. Choose a date and select an hour on the scale to compare the same instant across each row.</p>
+          </details>
+          <details>
+            <summary>How is my information used?</summary>
+            <p>Saved world-clock locations stay in your browser. Map tiles and library assets load from external providers; city search sends your search text to Open-Meteo. Using location detection requires your browser’s permission. No address lookup is performed.</p>
+          </details>
+          <details>
+            <summary>What if the map does not load?</summary>
+            <p>Use the localhost launcher and check your connection. External map services may be unavailable or blocked. City search and timezone dropdowns provide other ways to explore time.</p>
+          </details>
+          <details>
+            <summary>How accurate are the clocks?</summary>
+            <p>Clocks use your device time and browser timezone database. Keep your device clock and browser updated. Future daylight saving rules may change.</p>
+          </details>
+        </div>
+      </section>
+      <footer>
+        <span>© MunuteAtlas · munuteatlas.com · Timezone explorer</span>
+        <span>
+          <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · <a href="https://open-meteo.com/">Open-Meteo</a> · Browser Intl timezone rules</span>
+      </footer>
+    </main>
+    <div class="toast" id="toast" role="status">
+    </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    </script>
+    <script src="https://unpkg.com/tz-lookup@6.1.25/tz.js">
+    </script>
+    <script src="scripts/map-config.js">
+    </script>
+    <script src="scripts/time-conversion.js">
+    </script>
+    <script src="scripts/data/cities.js">
+    </script>
+    <script src="scripts/app.js">
+    </script>
+    <script src="scripts/map-preview.js">
+    </script>
+    <script src="scripts/tabs.js">
+    </script>
+    <script src="scripts/calculator.js">
+    </script>
+    <script src="scripts/timezone-list.js">
+    </script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+# Generated files and local caches
+dist/
+node_modules/
+__pycache__/
+*.py[cod]
+coverage/
+.DS_Store
+Thumbs.db
+
+# Local credentials and hosting state
+.env
+.env.*
+!.env.example
+.openai/
+*.log

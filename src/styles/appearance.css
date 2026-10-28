@@ -1,0 +1,350 @@
+/* Theme menu and overrides for Bright and Black & White. */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.theme-menu-wrap {
+  position: relative;
+  z-index: 3000;
+}
+.theme-menu-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 13px;
+  background: #15243b;
+  color: var(--ink);
+  font-size: 12px;
+  min-height: 42px;
+}
+.theme-menu-button:hover {
+  border-color: var(--green);
+}
+.theme-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 215px;
+  padding: 9px;
+  background: #101e32;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 15px 45px #0005;
+  animation: panel-in .18s ease;
+}
+.theme-menu-title {
+  display: block;
+  padding: 9px 10px;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 1.7px;
+}
+.theme-menu button {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  min-height: 44px;
+  text-align: left;
+  border: 0;
+  border-radius: 6px;
+  padding: 10px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 12px;
+}
+.theme-menu button:hover,.theme-menu button[aria-pressed=true] {
+  background: #83f5c815;
+}
+.theme-check {
+  margin-left: auto;
+  color: var(--green);
+  visibility: hidden;
+}
+.theme-menu button[aria-pressed=true] .theme-check {
+  visibility: visible;
+}
+.theme-swatch {
+  width: 19px;
+  height: 19px;
+  border: 1px solid #90a1b6;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.mono-swatch {
+  background: linear-gradient(90deg,#111 50%,#fff 50%);
+}
+.bright-swatch {
+  background: linear-gradient(130deg,#3377ff 50%,#83f5c8 50%);
+}
+.midnight-swatch {
+  background: linear-gradient(130deg,#101a2b 50%,#1f4875 50%);
+}
+/* Monochrome retains contrast while removing decorative color. */
+html[data-theme=mono] {
+  filter: grayscale(1);
+}
+/* Bright appearance maps all application surfaces to a light palette. */
+html[data-theme=bright] {
+  color-scheme: light;
+  --ink: #132d47;
+  --muted: #59738c;
+  --green: #126b5e;
+  --mint: #147963;
+  --blue: #2867e9;
+  --line: #cddde9;
+  --paper: #f2f8fc;
+}
+[data-theme=bright] body {
+  background: radial-gradient(ellipse at 85% 0%,#ceecff,transparent 50%),#f3f8fc;
+}
+[data-theme=bright] header {
+  background: #fffffff0;
+  border-color: #cddde9;
+}
+[data-theme=bright] .brand {
+  color: #132d47;
+}
+[data-theme=bright] .brand .logo,[data-theme=bright] .brand span:last-child {
+  color: #16876d!important;
+}
+[data-theme=bright] .seg {
+  background: #dceaf6;
+  border-color: #bfd3e5;
+}
+[data-theme=bright] .seg button {
+  color: #416580;
+}
+[data-theme=bright] .seg button.active {
+  background: #2867e9;
+  color: white;
+}
+[data-theme=bright] .info,[data-theme=bright] .calculator {
+  background: linear-gradient(140deg,#fff,#eaf5ff);
+  border-color: #bed6eb;
+  box-shadow: 0 12px 35px #1939580a;
+}
+[data-theme=bright] .card,[data-theme=bright] .conversion-card,[data-theme=bright] .compare-base,[data-theme=bright] .compare-picker,[data-theme=bright] .help-grid details {
+  background: #fff;
+  border-color: #c8dce9;
+  color: #132d47;
+}
+[data-theme=bright] .destination-card {
+  background: linear-gradient(135deg,#d9f9ed,#f4fffc);
+}
+[data-theme=bright] .row strong,[data-theme=bright] .conversion-card-heading h4 {
+  color: #132d47;
+}
+[data-theme=bright] .clock small,[data-theme=bright] .date,[data-theme=bright] .field-label,[data-theme=bright] .conversion-card-heading .eyebrow,[data-theme=bright] .conversion-actions p,[data-theme=bright] .source-datetime-summary,[data-theme=bright] .selection-status {
+  color: #52718b;
+}
+[data-theme=bright] .save {
+  background: #2867e9;
+  color: #fff;
+}
+[data-theme=bright] .badge,[data-theme=bright] .offset-pill,[data-theme=bright] .secondary,[data-theme=bright] .compare-chip {
+  background: #dff6ec;
+  color: #126b5e;
+  border-color: #9bd6c3;
+}
+[data-theme=bright] .lower-tabs button {
+  color: #58718a;
+}
+[data-theme=bright] .lower-tabs button[aria-selected=true] {
+  color: #126b5e;
+  background: #ddf6ec;
+  border-color: #9bd6c3;
+}
+[data-theme=bright] .lower-tabs button:hover {
+  background: #e4eff9;
+  color: #183851;
+}
+[data-theme=bright] .conversion-card select,[data-theme=bright] .conversion-card input,[data-theme=bright] .compare-picker select,[data-theme=bright] .simulation-controls input {
+  background: #f6faff;
+  color: #163652;
+  border-color: #b4cce0;
+  color-scheme: light;
+}
+[data-theme=bright] #source-datetime-picker {
+  background: #eaf4fc;
+  border-color: #bfd5e6;
+}
+[data-theme=bright] .calendar-toggle {
+  color: #16735e;
+  background: #e0f6ed;
+  border-color: #9bd6c3;
+}
+[data-theme=bright] .source-card {
+  border-top-color: #2867e9;
+}
+[data-theme=bright] .destination-card {
+  border-top-color: #32b693;
+}
+[data-theme=bright] .destination-time,[data-theme=bright] .card-time,[data-theme=bright] .clock {
+  color: #167963;
+}
+[data-theme=bright] .destination-date {
+  color: #41627d;
+}
+[data-theme=bright] .day-shift {
+  background: #d9f4e9;
+  color: #156b57;
+  border-color: #a7d8c7;
+}
+[data-theme=bright] .swap {
+  background: #dfecff;
+  border-color: #b5ceeb;
+  color: #2462cf;
+}
+[data-theme=bright] .conversion-result {
+  color: #165e50;
+  background: #e0f6ed;
+  border-color: #a2d4c0;
+}
+[data-theme=bright] .conversion-result.error,[data-theme=bright] .compare-error {
+  color: #ad3329;
+  background: #fff0ee;
+}
+[data-theme=bright] .scale-row {
+  background: #edf4ff;
+  border-color: #bfd1e8;
+}
+[data-theme=bright] .scale-row.base-scale {
+  background: #ebfaf3;
+  border-color: #9ad2bb;
+}
+[data-theme=bright] .scale-row-heading strong {
+  color: #163953;
+}
+[data-theme=bright] .scale-row-heading span {
+  color: #126b5e;
+}
+[data-theme=bright] .business-hour {
+  background-color: #bdeedc;
+  color: #145643;
+}
+[data-theme=bright] .other-hour {
+  background-color: #d3e5ff;
+  color: #1e518e;
+}
+[data-theme=bright] .scales-scroll {
+  border-color: #bfd3e6;
+  scrollbar-color: #83b3c9 #e4eef9;
+}
+[data-theme=bright] .scale-cell {
+  border-color: #aac4d2;
+}
+[data-theme=bright] .scale-cursor::before {
+  background: #166f59;
+  border-color: #e9fff7;
+}
+[data-theme=bright] .scale-cursor::after {
+  background: #166f59;
+}
+[data-theme=bright] .scale-time-popup {
+  background: #fffffff5;
+  border-color: #8acbb6;
+  box-shadow: 0 12px 35px #16395830;
+}
+[data-theme=bright] .scale-time-popup strong {
+  color: #14745e;
+}
+[data-theme=bright] .scale-time-popup small,[data-theme=bright] .scale-time-popup span {
+  color: #355b76;
+}
+[data-theme=bright] .dst-note {
+  background: #e5f2ff;
+  border-color: #bdd6eb;
+}
+[data-theme=bright] .help-grid summary {
+  color: #1d405d;
+}
+[data-theme=bright] a {
+  color: #245fc6;
+}
+[data-theme=bright] footer {
+  color: #5d778e;
+}
+[data-theme=bright] .search-line {
+  background: #fffffff2;
+  border-color: #bfd2e2;
+}
+[data-theme=bright] .search-line input {
+  color: #193850;
+}
+[data-theme=bright] .search-line input::placeholder {
+  color: #648099;
+}
+[data-theme=bright] .results,[data-theme=bright] .results button {
+  background: #fff;
+  color: #193850;
+}
+[data-theme=bright] .results button:hover {
+  background: #e8f3ff;
+}
+[data-theme=bright] .map-caption {
+  background: #fffffff2;
+  color: #375c77;
+  border-color: #bfd3e4;
+}
+[data-theme=bright] .navigation-readout strong {
+  color: #14745e;
+}
+[data-theme=bright] .locate {
+  background: #fff;
+  color: #16745e;
+  border-color: #b5cee1;
+}
+[data-theme=bright] .leaflet-control-zoom a {
+  background: white!important;
+  color: #276491!important;
+  border-color: #b5cee1!important;
+}
+[data-theme=bright] .theme-menu-button,[data-theme=bright] .theme-menu {
+  background: #fff;
+  color: #193850;
+  border-color: #c5d9e8;
+}
+[data-theme=bright] .theme-menu button:hover,[data-theme=bright] .theme-menu button[aria-pressed=true] {
+  background: #e1f5ed;
+}
+[data-theme=bright] .toast {
+  background: #fff;
+  color: #175b4c;
+  border-color: #89c5af;
+}
+@media(max-width:720px) {
+  .header-actions {
+    gap: 10px;
+  }
+  .header-actions .header-note {
+    display: none;
+  }
+  .theme-menu-button {
+    padding: 9px 11px;
+  }
+  .theme-menu {
+    min-width: 210px;
+  }
+  .theme-menu-button span {
+    font-size: 11px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .theme-menu {
+    animation: none;
+  }
+}
+@media(max-width:720px) {
+  header .brand {
+    font-size: 21px;
+    gap: 7px;
+    letter-spacing: -1px;
+  }
+  header .brand .logo {
+    font-size: 28px;
+  }
+}
