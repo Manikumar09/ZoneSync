@@ -1,15 +1,15 @@
-# MunuteAtlas
+# ZoneSync
 
-MunuteAtlas is a world clock and timezone planning app. Use an interactive map to find local times, save places, convert dates between timezones, and compare a shared moment across regions.
+ZoneSync is a world clock and timezone planning app. Use an interactive map to find local times, save places, convert dates between timezones, and compare a shared moment across regions.
 
 The app runs in your browser. No account, backend server, database, or API key is needed.
 
 ## Hosting status
 
-The code includes a GitHub Actions workflow for GitHub Pages. The intended repository is `Manikumar09/munuteatlas`, and the planned website address is:
+The code includes a GitHub Actions workflow for GitHub Pages. The intended repository is `Manikumar09/zonesync`, and the planned website address is:
 
 ```text
-https://manikumar09.github.io/munuteatlas/
+https://manikumar09.github.io/zonesync/
 ```
 
 This address becomes available after the repository is created, Pages is enabled, and deployment succeeds. It is not a confirmed live deployment. See the [deployment guide](docs/deployment.md) for the publishing steps.
@@ -95,6 +95,7 @@ Edit `src/`, not `dist/`. The build replaces `dist/`. Documentation belongs in `
 ```text
 .github/workflows/   Automated checks and Pages deployment
 src/index.html       Page layout
+src/assets/          ZoneSync logo
 src/scripts/         Map, clocks, calculator, comparison, and appearance code
 src/scripts/data/    Default city data
 src/styles/          Layout and theme styles
@@ -104,7 +105,7 @@ docs/                User, code, and deployment guides
 launch.py            Local server
 ```
 
-The source is formatted for reading, with feature files and comments for non-obvious rules. Existing browser storage keys are preserved. The controllers still share browser state; they are not ES modules. Browser checks are also needed for layout, touch input, and external service loading.
+The source is formatted for reading, with feature files and comments for non-obvious rules. Existing saved clocks and appearance preferences are migrated to ZoneSync storage keys on the same site address. The controllers still share browser state; they are not ES modules. Browser checks are also needed for layout, touch input, and external service loading.
 
 ## Publish to GitHub
 
@@ -131,7 +132,7 @@ The workflow follows GitHub's [custom Pages workflow guidance](https://docs.gith
 | Open-Meteo | City search and geocoding |
 | Browser Intl | Local time formatting and timezone rules |
 | Google Fonts | DM Sans and Manrope fonts |
-| localStorage | Saved clocks (`meridian-places`) and theme (`meridian-theme`) |
+| localStorage | Saved clocks (`zonesync-places`) and theme (`zonesync-theme`) |
 
 City search sends search text to Open-Meteo. Map tiles, fonts, and libraries make requests to external providers. A tile request can reveal the viewed map area. Location detection requires browser permission. No street-address lookup is performed. There is no app account, analytics integration, or server database.
 
@@ -148,7 +149,7 @@ Map configuration is in `src/scripts/map-config.js`. Keep visible attribution an
 - If saved clocks disappear, check that you are using the same browser and site address.
 - If a time is rejected, check for a daylight saving gap or an invalid date.
 
-The app displays `munuteatlas.com` as an intended domain. Registration, DNS, and custom-domain setup are not included or confirmed. Use the Pages address after deployment succeeds.
+No custom domain is configured. Use the Pages address after deployment succeeds.
 
 ## Support and licensing
 

@@ -127,7 +127,7 @@
     getElement('compare-simulation').hidden = comparisons.length < 1;
     if (comparisons.length >= 1) drawScales();
   }
-  getElement('compare-date').value = MeridianTime.wallTime(Date.now(), base).slice(0, 10);
+  getElement('compare-date').value = ZoneSyncTime.wallTime(Date.now(), base).slice(0, 10);
   function drawScales() {
     // These are elapsed-hour scales. A clock change can shift the ending wall time.
     hidePreview();
@@ -135,7 +135,7 @@
     getElement('compare-scales').replaceChildren();
     getElement('compare-error').textContent = '';
     try {
-      start = MeridianTime.convertWallTime(getElement('compare-date').value + 'T00:00', base).epoch;
+      start = ZoneSyncTime.convertWallTime(getElement('compare-date').value + 'T00:00', base).epoch;
     } catch (e) {
       getElement('compare-error').textContent = e.message;
       getElement('compare-moment').textContent = 'Choose a valid date';
@@ -159,7 +159,7 @@
       track.setAttribute('aria-valuemax', '1440');
       for (let hour = 0; hour < 24; hour++) {
         const epoch = start + hour * 3600000;
-        const wall = MeridianTime.wallTime(epoch, zone);
+        const wall = ZoneSyncTime.wallTime(epoch, zone);
         const localHour = +wall.slice(11, 13);
         const cell = document.createElement('button');
         cell.className = 'scale-cell ' + (localHour >= 8 && localHour < 18 ? 'business-hour' : 'other-hour');
@@ -270,19 +270,19 @@
     });
     toast('Select an area on the map to set your base timezone.');
   };
-  window.addEventListener('meridian-selection', event => {
+  window.addEventListener('zonesync-selection', event => {
     base = event.detail.timezone;
     comparisons = comparisons.filter(zone => zone !== base);
-    getElement('compare-date').value = MeridianTime.wallTime(Date.now(), base).slice(0, 10);
+    getElement('compare-date').value = ZoneSyncTime.wallTime(Date.now(), base).slice(0, 10);
     updateSelection();
   });
   getElement('compare-date').onchange = drawScales;
   getElement('compare-now').onclick = () => {
-    getElement('compare-date').value = MeridianTime.wallTime(Date.now(), base).slice(0, 10);
+    getElement('compare-date').value = ZoneSyncTime.wallTime(Date.now(), base).slice(0, 10);
     currentMinute = 0;
     drawScales();
   };
-  window.addEventListener('meridian-tab', event => {
+  window.addEventListener('zonesync-tab', event => {
     if (event.detail.index !== 2) {
       hidePreview();
     } else if (comparisons.length >= 1) drawScales();

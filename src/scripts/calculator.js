@@ -17,7 +17,7 @@ fromZone.value = selected.tz;
 toZone.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
 if (toZone.value === fromZone.value) toZone.value = 'Asia/Tokyo';
 function setSourceTime(epoch) {
-  const [date, time] = MeridianTime.wallTime(epoch, fromZone.value).split('T');
+  const [date, time] = ZoneSyncTime.wallTime(epoch, fromZone.value).split('T');
   getElement('convert-date').value = date;
   getElement('convert-time').value = time;
 }
@@ -40,7 +40,7 @@ function convert() {
     const {
       epoch,
       ambiguous
-    } = MeridianTime.convertWallTime(value, fromZone.value);
+    } = ZoneSyncTime.convertWallTime(value, fromZone.value);
     getElement('source-offset').textContent = gmtAt(epoch, fromZone.value);
     getElement('destination-offset').textContent = gmtAt(epoch, toZone.value);
     getElement('destination-time').textContent = new Intl.DateTimeFormat('en-US', {
@@ -56,7 +56,7 @@ function convert() {
       month: 'long',
       day: 'numeric'
     }).format(new Date(epoch));
-    const targetDate = MeridianTime.wallTime(epoch, toZone.value).slice(0, 10);
+    const targetDate = ZoneSyncTime.wallTime(epoch, toZone.value).slice(0, 10);
     const dayDelta = Math.round((Date.parse(targetDate + 'T00:00Z') - Date.parse(value.slice(0, 10) + 'T00:00Z')) / 86400000);
     getElement('day-shift').textContent = dayDelta === 0 ? 'Same calendar day' : `${dayDelta > 0 ? '+' : ''}${dayDelta} day${Math.abs(dayDelta) === 1 ? '' : 's'} from source`;
     result.classList.remove('error');
@@ -77,7 +77,7 @@ for (const id of ['h12', 'h24']) getElement(id).addEventListener('click', conver
 getElement('swap-zones').onclick = () => {
   let epoch;
   try {
-    epoch = MeridianTime.convertWallTime(sourceValue(), fromZone.value).epoch;
+    epoch = ZoneSyncTime.convertWallTime(sourceValue(), fromZone.value).epoch;
   } catch {}
   const before = fromZone.value;
   fromZone.value = toZone.value;

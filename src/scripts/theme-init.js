@@ -3,6 +3,6 @@
  */
 
 try {
-  const theme = localStorage.getItem('meridian-theme');
+  const theme = localStorage.getItem('zonesync-theme');
   if (['mono', 'bright', 'midnight'].includes(theme)) document.documentElement.dataset.theme = theme;
 } catch {/* Use the default theme when browser storage is unavailable. */}

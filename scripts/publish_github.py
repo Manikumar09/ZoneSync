@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Publish this application to Manikumar09/munuteatlas and enable GitHub Pages.
+"""Publish this application to Manikumar09/zonesync and enable GitHub Pages.
 
 Run from a terminal with internet access after signing in with gh auth login.
 The repository and website will be public. This script never reads token files.
@@ -13,9 +13,9 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 OWNER = "Manikumar09"
-REPOSITORY = f"{OWNER}/munuteatlas"
+REPOSITORY = f"{OWNER}/zonesync"
 REPOSITORY_URL = f"https://github.com/{REPOSITORY}"
-SITE_URL = f"https://{OWNER.lower()}.github.io/munuteatlas/"
+SITE_URL = f"https://{OWNER.lower()}.github.io/zonesync/"
 
 
 def run(*arguments, capture=False, check=True):
@@ -61,7 +61,7 @@ def main():
         run(
             "gh", "repo", "create", REPOSITORY, "--public", "--source", str(ROOT),
             "--remote", "origin", "--description",
-            "MunuteAtlas: world clocks, an interactive timezone map, and time planning tools."
+            "ZoneSync: world clocks, an interactive timezone map, and time planning tools."
         )
 
     # No force push: existing remote history is protected from replacement.

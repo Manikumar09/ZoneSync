@@ -1,11 +1,11 @@
 # Code guide
 
-MunuteAtlas is a static website. HTML provides the page, CSS controls its appearance, and plain JavaScript handles the map and time tools. There is no backend, database, account system, or API secret. Python is only a local development server. Node.js runs checks, tests, and the build.
+ZoneSync is a static website. HTML provides the page, CSS controls its appearance, and plain JavaScript handles the map and time tools. There is no backend, database, account system, or API secret. Python is only a local development server. Node.js runs checks, tests, and the build.
 
 ## Folders
 
 ```text
-munuteatlas/
+zonesync/
   .github/workflows/pages.yml   Checks and GitHub Pages deployment
   docs/
     architecture.md            This code guide
@@ -16,9 +16,11 @@ munuteatlas/
     check.cjs                  Checks syntax and asset references
     publish_github.py          Creates the GitHub repo and enables Pages
   src/
+    assets/zonesync-logo.png   Supplied ZoneSync brand logo
     index.html                 Page layout and accessible controls
     scripts/
       data/cities.js           Starter cities and search fallback
+      storage-migration.js     Migrates saved preferences from the previous brand
       theme-init.js            Restores appearance before rendering
       appearance.js            Theme menu and saved theme
       map-config.js            Tile URL and required attribution
@@ -46,10 +48,10 @@ munuteatlas/
 
 Scripts use ordinary browser script tags rather than a bundler. Keep the order in `index.html` when adding or moving files.
 
-1. `theme-init.js` runs in the page head. `appearance.js` is deferred until the page is parsed.
+1. `storage-migration.js` copies previous saved clocks and theme settings to ZoneSync keys when those keys are missing. Existing ZoneSync settings take priority. It keeps the previous keys for recovery. This migration applies only on the same site origin. A different hostname, protocol, or localhost port has separate storage. `theme-init.js` then runs in the page head. `appearance.js` is deferred until the page is parsed.
 2. Leaflet and tz-lookup load from their pinned CDN URLs.
-3. `map-config.js` creates `window.MERIDIAN_MAP`.
-4. `time-conversion.js` creates `MeridianTime`, also exported for Node tests.
+3. `map-config.js` creates `window.ZONESYNC_MAP`.
+4. `time-conversion.js` creates `ZoneSyncTime`, also exported for Node tests.
 5. `data/cities.js` supplies `cities`.
 6. `app.js` creates the map and shared state. `getElement` finds an element by ID; `selected` is the selected place; `hour12` controls clock formatting. It also defines `select`, `toast`, and other clock helpers used by the controllers.
 7. `map-preview.js` adds pointer and movement feedback.
@@ -61,11 +63,11 @@ The controllers deliberately preserve the existing shared browser state. They ar
 
 ## Events and time calculations
 
-`select(place)` updates the selected map location and dispatches `meridian-selection`, with `detail.timezone`. The comparison tool follows the new base and removes a comparison that would duplicate it. The calculator follows the map only when the user presses Select from Map.
+`select(place)` updates the selected map location and dispatches `zonesync-selection`, with `detail.timezone`. The comparison tool follows the new base and removes a comparison that would duplicate it. The calculator follows the map only when the user presses Select from Map.
 
-Tab changes dispatch `meridian-tab`, with `detail.index`. The comparison tool uses it to clear pointer previews and redraw visible rows.
+Tab changes dispatch `zonesync-tab`, with `detail.index`. The comparison tool uses it to clear pointer previews and redraw visible rows.
 
-`MeridianTime.wallTime(epoch, zone)` formats an instant as `YYYY-MM-DDTHH:mm`. `convertWallTime(value, zone)` resolves that local value to an instant. It checks offsets around the requested date, rejects missing times during a forward clock change, and returns the earlier occurrence with `ambiguous: true` when a time repeats.
+`ZoneSyncTime.wallTime(epoch, zone)` formats an instant as `YYYY-MM-DDTHH:mm`. `convertWallTime(value, zone)` resolves that local value to an instant. It checks offsets around the requested date, rejects missing times during a forward clock change, and returns the earlier occurrence with `ambiguous: true` when a time repeats.
 
 Comparison scales cover 24 elapsed hours from midnight in the base zone. A daylight saving change may make the final local time different from midnight. Shading marks local hours from 08:00 to 18:00; it is not sunrise data or a business calendar.
 
@@ -73,8 +75,8 @@ Comparison scales cover 24 elapsed hours from midnight in the base zone. A dayli
 
 | Item | Purpose |
 | --- | --- |
-| `meridian-places` | Saved world-clock locations in localStorage |
-| `meridian-theme` | Selected theme in localStorage |
+| `zonesync-places` | Saved world-clock locations in localStorage |
+| `zonesync-theme` | Selected theme in localStorage |
 | OpenStreetMap | Public raster tiles; provider attribution must remain visible |
 | Open-Meteo geocoding | Receives city search text and returns matching locations |
 | unpkg | Hosts pinned Leaflet 1.9.4 and tz-lookup 6.1.25 assets |

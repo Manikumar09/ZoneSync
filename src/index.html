@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>MunuteAtlas — Find your place in time</title>
+    <title>ZoneSync — Find your place in time</title>
     <meta name="description" content="Explore timezones on an interactive world map. Select any location, see its local time, and compare saved places.">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <link rel="stylesheet" href="styles/base.css">
@@ -11,13 +11,14 @@
     <link rel="stylesheet" href="styles/appearance.css">
     <script src="scripts/appearance.js" defer>
     </script>
+    <script src="scripts/storage-migration.js"></script>
     <script src="scripts/theme-init.js">
     </script>
   </head>
   <body>
     <header>
       <div class="brand">
-        <span class="logo">◎</span>munuteatlas<span style="color:#65967b">.</span>
+        <span class="logo">◎</span>ZoneSync<span style="color:#65967b">.</span>
       </div>
       <div class="header-actions">
         <div class="header-note">
@@ -222,62 +223,76 @@
           <p class="hint">Dates, GMT offsets, and daylight saving changes follow each timezone’s rules. Daytime shading is a planning guide.</p>
         </div>
       </section>
-      <section class="app-information" aria-label="Application information">
-        <div class="app-info-top">
-          <div>
-            <div class="brand">
-              <span class="logo">◎</span>munuteatlas.</div>
-            <p>Find a timezone. Share a moment.<br>A map-based timezone explorer and planning tool.</p>
-          </div>
-          <div>
-            <h4>About MunuteAtlas</h4>
-            <p>Explore local times, convert dates, and compare up to five timezones against your map selection. No account required.</p>
-          </div>
-          <div>
-            <h4>Contact &amp; support</h4>
-            <p id="contact-details">Official contact details have not been provided.</p>
-            <a href="#app-help">Help &amp; frequently asked questions ↗</a>
-          </div>
+      <section class="app-information" aria-labelledby="about-heading">
+        <div class="information-heading">
+          <span class="eyebrow">APPLICATION INFORMATION</span>
+          <h2 id="about-heading">About ZoneSync</h2>
+          <p>A practical workspace for exploring local times and planning across timezones.</p>
         </div>
-        <div class="dst-note">
-          <span class="eyebrow">EASTERN TIME · EDT / EST</span>
-          <h4>One region, two seasonal offsets.</h4>
+        <div class="app-info-top">
+          <article>
+            <h3>World clocks and planning</h3>
+            <p>Explore timezones on the map, save world clocks, and convert dates between regions. Compare a selected location with up to five other timezones to find a suitable shared time.</p>
+          </article>
+          <article>
+            <h3>Time accuracy</h3>
+            <p>ZoneSync uses your device clock and your browser’s timezone database. Conversions follow the rules for the selected region and date, including daylight saving changes. Keep your device time and browser up to date.</p>
+          </article>
+          <article>
+            <h3>Privacy and data</h3>
+            <p>Saved clocks and appearance preferences stay in this browser. City searches are sent to Open-Meteo; maps, fonts, and libraries load from external providers. Location detection requires your permission. No account is required.</p>
+          </article>
+        </div>
+        <div class="dst-note" aria-labelledby="daylight-saving-heading">
+          <span class="eyebrow">TIMEZONE GUIDANCE</span>
+          <h3 id="daylight-saving-heading">Understanding daylight saving time</h3>
+          <p>A region’s GMT offset may change during the year. Choose an IANA timezone such as America/New_York to apply the rules for a specific date, rather than assuming a fixed offset.</p>
           <div class="dst-cards">
             <div>
-              <strong>EDT · GMT−04:00</strong>
-              <p>In U.S. Eastern locations observing daylight saving time, EDT begins March 8, 2026 at 2:00 a.m. EST (clocks jump to 3:00 a.m. EDT), and ends November 1, 2026 at 2:00 a.m. EDT.</p>
+              <strong>Eastern Daylight Time · GMT−04:00</strong>
+              <p>EDT is the daylight saving offset used by U.S. Eastern locations that observe seasonal clock changes.</p>
             </div>
             <div>
-              <strong>EST · GMT−05:00</strong>
-              <p>EST resumes November 1, 2026 when 2:00 a.m. EDT becomes 1:00 a.m. EST. It continues until March 14, 2027 at 2:00 a.m. EST. In early 2026, EST lasts until March 8.</p>
+              <strong>Eastern Standard Time · GMT−05:00</strong>
+              <p>EST is the standard offset for those locations. A local time can be skipped when clocks advance or occur twice when clocks move back.</p>
             </div>
           </div>
-          <p>Under current U.S. rules, daylight saving starts on the second Sunday of March and ends on the first Sunday of November. Some regions do not observe these changes. Choose an IANA zone such as America/New_York to apply the correct rules for a date. <a href="https://www.nist.gov/pml/time-and-frequency-division/popular-links/daylight-saving-time-dst" target="_blank" rel="noopener">Source: NIST daylight saving rules ↗</a>
-          </p>
+          <p>ZoneSync rejects skipped local times and explains when it selects the earlier occurrence of a repeated time. <a href="https://www.nist.gov/pml/time-and-frequency-division/popular-links/daylight-saving-time-dst" target="_blank" rel="noopener">Read NIST’s daylight saving guidance</a>.</p>
         </div>
-        <div id="app-help" class="help-grid">
+        <div class="help-heading">
+          <h3 id="help-heading">Help and common questions</h3>
+          <p>Quick guidance for using ZoneSync and resolving common issues.</p>
+        </div>
+        <div id="app-help" class="help-grid" aria-labelledby="help-heading">
           <details>
             <summary>How do I compare timezones?</summary>
-            <p>Open Time zone list, select a base on the map, and add one to five unique timezones. Choose a date and select an hour on the scale to compare the same instant across each row.</p>
+            <p>Open Time zone list, choose a base location on the map, and add one to five different timezones. Select a date, then click the scale or drag its pointer to compare the same instant across all rows.</p>
           </details>
           <details>
-            <summary>How is my information used?</summary>
-            <p>Saved world-clock locations stay in your browser. Map tiles and library assets load from external providers; city search sends your search text to Open-Meteo. Using location detection requires your browser’s permission. No address lookup is performed.</p>
+            <summary>Are my saved clocks available on other devices?</summary>
+            <p>Saved clocks are stored in this browser and are not synced across devices. Use the same browser and site address to return to them. Clearing site data removes saved clocks and appearance preferences.</p>
           </details>
           <details>
-            <summary>What if the map does not load?</summary>
-            <p>Use the localhost launcher and check your connection. External map services may be unavailable or blocked. City search and timezone dropdowns provide other ways to explore time.</p>
+            <summary>What should I do if the map does not load?</summary>
+            <p>Check your internet connection and refresh the page. External map services may be unavailable or blocked by your network. You can also use city search and the timezone dropdowns. For local use, start the application with its launcher.</p>
           </details>
           <details>
-            <summary>How accurate are the clocks?</summary>
-            <p>Clocks use your device time and browser timezone database. Keep your device clock and browser updated. Future daylight saving rules may change.</p>
+            <summary>Why is a local time rejected or repeated?</summary>
+            <p>Daylight saving changes can skip or repeat local times. Choose a time outside a skipped interval. For repeated times, the calculator uses the earlier occurrence and displays an explanation.</p>
           </details>
         </div>
       </section>
-      <footer>
-        <span>© MunuteAtlas · munuteatlas.com · Timezone explorer</span>
-        <span>
-          <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · <a href="https://open-meteo.com/">Open-Meteo</a> · Browser Intl timezone rules</span>
+      <footer class="site-footer">
+        <div class="footer-brand">
+          <img src="assets/zonesync-logo.png" alt="ZoneSync" width="2172" height="724" loading="lazy" decoding="async">
+          <p>World clocks. Timezone conversion. Shared planning.</p>
+        </div>
+        <div class="footer-details">
+          <span>© ZoneSync · Timezone explorer and planning tool</span>
+          <span class="footer-attribution">
+            Map data: <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · City search: <a href="https://open-meteo.com/">Open-Meteo</a> · Time rules: browser Intl
+          </span>
+        </div>
       </footer>
     </main>
     <div class="toast" id="toast" role="status">

@@ -1,6 +1,6 @@
-# MunuteAtlas user guide
+# ZoneSync user guide
 
-MunuteAtlas helps you find local times, save world clocks, convert dates, and compare timezones. No account is needed. Open the deployed website in a current browser, or run `python3 launch.py` from the application folder.
+ZoneSync helps you find local times, save world clocks, convert dates, and compare timezones. No account is needed. Open the deployed website in a current browser, or run `python3 launch.py` from the application folder.
 
 ## Find a place
 

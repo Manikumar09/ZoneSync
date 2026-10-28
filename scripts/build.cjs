@@ -9,4 +9,4 @@ rmSync(output, { recursive: true, force: true });
 mkdirSync(output, { recursive: true });
 cpSync(path.join(root, 'src'), output, { recursive: true });
 writeFileSync(path.join(output, '.nojekyll'), '');
-console.log('Built MunuteAtlas in dist/.');
+console.log('Built ZoneSync in dist/.');

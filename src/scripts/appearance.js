@@ -16,7 +16,7 @@
     document.documentElement.dataset.theme = value;
     for (const choice of choices) choice.setAttribute('aria-pressed', String(choice.dataset.themeChoice === value));
     try {
-      localStorage.setItem('meridian-theme', value);
+      localStorage.setItem('zonesync-theme', value);
     } catch {}
   }
   trigger.onclick = () => {
@@ -47,7 +47,7 @@
     if (!menu.hidden && !event.target.closest('.theme-menu-wrap')) close();
   });
   window.addEventListener('storage', event => {
-    if (event.key === 'meridian-theme') apply(event.newValue || 'midnight');
+    if (event.key === 'zonesync-theme') apply(event.newValue || 'midnight');
   });
   apply(document.documentElement.dataset.theme || 'midnight');
 })();

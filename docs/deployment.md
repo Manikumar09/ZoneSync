@@ -2,12 +2,12 @@
 
 ## Current setup
 
-The local codebase includes a GitHub Pages workflow. The intended repository is `Manikumar09/munuteatlas`. Repository creation, pushing, and live deployment must be verified on GitHub; having the workflow file locally does not make the site live.
+The local codebase includes a GitHub Pages workflow. The intended repository is `Manikumar09/zonesync`. Repository creation, pushing, and live deployment must be verified on GitHub; having the workflow file locally does not make the site live.
 
 The planned site address is:
 
 ```text
-https://manikumar09.github.io/munuteatlas/
+https://manikumar09.github.io/zonesync/
 ```
 
 GitHub Pages serves the built website. GitHub Actions checks and publishes updates. The app does not need an Actions job running all day or your computer staying on. Access still depends on GitHub Pages, the visitor's internet connection, and the external map and search providers. No service guarantees uninterrupted access.
@@ -42,27 +42,27 @@ Ensure your changes are committed on `main`. Configure your own Git commit name 
 python3 scripts/publish_github.py
 ```
 
-The script checks the account, branch, clean working tree, and source checks. It creates `Manikumar09/munuteatlas`, adds `origin`, pushes `main`, enables Pages with GitHub Actions as its source, sets the homepage, and starts the workflow. It refuses an unrelated origin and never force-pushes.
+The script checks the account, branch, clean working tree, and source checks. It creates `Manikumar09/zonesync`, adds `origin`, pushes `main`, enables Pages with GitHub Actions as its source, sets the homepage, and starts the workflow. It refuses an unrelated origin and never force-pushes.
 
 If a repository with that name already exists and no local origin has been set, the script stops so it cannot publish over an unrelated project. Inspect the existing repository before manually attaching its URL. If a prior attempt created the correct empty repository but stopped, add it as origin and run the script again:
 
 ```sh
-git remote add origin https://github.com/Manikumar09/munuteatlas.git
+git remote add origin https://github.com/Manikumar09/zonesync.git
 python3 scripts/publish_github.py
 ```
 
-Open the repository's Actions tab. Wait for **Check and deploy MunuteAtlas** to finish successfully, then follow the deployment URL. The planned address is not proof of successful publication.
+Open the repository's Actions tab. Wait for **Check and deploy ZoneSync** to finish successfully, then follow the deployment URL. The planned address is not proof of successful publication.
 
 ## Manual alternative
 
-Create a new public repository named `munuteatlas` under `Manikumar09`, without an initial README, license, or gitignore. From this folder run:
+Create a new public repository named `zonesync` under `Manikumar09`, without an initial README, license, or gitignore. From this folder run:
 
 ```sh
-git remote add origin https://github.com/Manikumar09/munuteatlas.git
+git remote add origin https://github.com/Manikumar09/zonesync.git
 git push -u origin main
 ```
 
-In the repository, open **Settings > Pages > Build and deployment**, and set **Source** to **GitHub Actions**. Then open **Actions > Check and deploy MunuteAtlas > Run workflow** on `main`. If the first push ran before Pages was enabled, this new run publishes the site.
+In the repository, open **Settings > Pages > Build and deployment**, and set **Source** to **GitHub Actions**. Then open **Actions > Check and deploy ZoneSync > Run workflow** on `main`. If the first push ran before Pages was enabled, this new run publishes the site.
 
 ## Later updates
 
@@ -84,9 +84,9 @@ The workflow grants source read access to the check job. Only the deployment job
 ## Verify a deployment
 
 ```sh
-gh run list --repo Manikumar09/munuteatlas --workflow pages.yml
-gh run view RUN_ID --repo Manikumar09/munuteatlas
-gh api repos/Manikumar09/munuteatlas/pages --jq .html_url
+gh run list --repo Manikumar09/zonesync --workflow pages.yml
+gh run view RUN_ID --repo Manikumar09/zonesync
+gh api repos/Manikumar09/zonesync/pages --jq .html_url
 ```
 
 Replace `RUN_ID` with an actual run ID from the list. Open the returned site URL and check city search, map selection, saved clocks, calculator output, timeline controls, and themes. A passed source check does not verify external map availability.
@@ -106,7 +106,7 @@ Replace `RUN_ID` with an actual run ID from the list. Open the returned site URL
 
 ## Custom domain
 
-The app currently displays `munuteatlas.com` as its intended domain. That text does not register or connect the domain. Domain ownership, DNS configuration, a Pages custom-domain setting, and HTTPS verification are separate tasks. Use the GitHub Pages URL until those steps are complete.
+No custom domain is configured for ZoneSync. Domain ownership, DNS configuration, a Pages custom-domain setting, and HTTPS verification are separate tasks. Use the GitHub Pages URL after deployment succeeds.
 
 ## References
 

@@ -1,4 +1,4 @@
-name: Check and deploy MunuteAtlas
+name: Check and deploy ZoneSync
 
 on:
   push:

@@ -35,9 +35,9 @@
       ambiguous: matches.length > 1
     };
   }
-  root.MeridianTime = {
+  root.ZoneSyncTime = {
     wallTime,
     convertWallTime
   };
-  if (typeof module !== 'undefined') module.exports = root.MeridianTime;
+  if (typeof module !== 'undefined') module.exports = root.ZoneSyncTime;
 })(globalThis);

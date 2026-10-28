@@ -10,7 +10,7 @@ function showTab(index) {
     getElement(tab.getAttribute('aria-controls')).hidden = i !== index;
   });
   if (index === 1) convert();
-  window.dispatchEvent(new CustomEvent('meridian-tab', {
+  window.dispatchEvent(new CustomEvent('zonesync-tab', {
     detail: {
       index
     }

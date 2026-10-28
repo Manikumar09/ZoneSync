@@ -15,9 +15,9 @@ let hour12 = true,
   marker,
   request = 0;
 let saved;
-// Keep the existing storage key so saved places survive the source reorganization.
+// The head migration script preserves saved places from the previous brand.
 try {
-  saved = JSON.parse(localStorage.getItem('meridian-places'));
+  saved = JSON.parse(localStorage.getItem('zonesync-places'));
 } catch {}
 if (!Array.isArray(saved) || !saved.every(x => x && x.tz && Number.isFinite(x.lat))) saved = cities.slice(0, 4);
 saved = saved.map(({
@@ -31,7 +31,7 @@ saved = saved.map(({
   name: tz.split('/').pop().replaceAll('_', ' ')
 }));
 try {
-  localStorage.setItem('meridian-places', JSON.stringify(saved));
+  localStorage.setItem('zonesync-places', JSON.stringify(saved));
 } catch {}
 let toastTimer;
 function toast(t) {
@@ -42,7 +42,7 @@ function toast(t) {
 }
 function persist() {
   try {
-    localStorage.setItem('meridian-places', JSON.stringify(saved));
+    localStorage.setItem('zonesync-places', JSON.stringify(saved));
   } catch {
     toast('Your browser could not save locations for future visits.');
   }
@@ -110,7 +110,7 @@ function select(p, fly = true) {
     });
   }
   tick();
-  window.dispatchEvent(new CustomEvent('meridian-selection', {
+  window.dispatchEvent(new CustomEvent('zonesync-selection', {
     detail: {
       timezone: p.tz
     }
@@ -218,8 +218,8 @@ if (typeof L !== 'undefined') {
   L.control.zoom({
     position: 'topright'
   }).addTo(map);
-  const tiles = L.tileLayer(window.MERIDIAN_MAP.tileUrl, {
-    attribution: window.MERIDIAN_MAP.attribution,
+  const tiles = L.tileLayer(window.ZONESYNC_MAP.tileUrl, {
+    attribution: window.ZONESYNC_MAP.attribution,
     maxZoom: 19,
     referrerPolicy: 'strict-origin-when-cross-origin'
   }).addTo(map);

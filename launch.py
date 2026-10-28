@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Serve MunuteAtlas locally. No Python packages are needed."""
+"""Serve ZoneSync locally. No Python packages are needed."""
 
 import argparse
 from functools import partial
@@ -21,7 +21,7 @@ def main():
     handler = partial(SimpleHTTPRequestHandler, directory=str(source))
     with ThreadingHTTPServer(("127.0.0.1", args.port), handler) as server:
         url = f"http://127.0.0.1:{server.server_port}/"
-        print(f"MunuteAtlas is running at {url}\nPress Ctrl+C to stop.", flush=True)
+        print(f"ZoneSync is running at {url}\nPress Ctrl+C to stop.", flush=True)
         if not args.no_browser:
             timer = Timer(0.5, lambda: webbrowser.open(url))
             timer.daemon = True
